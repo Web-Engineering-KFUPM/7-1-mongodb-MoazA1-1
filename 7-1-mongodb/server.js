@@ -104,101 +104,76 @@
       run this command first to allow script execution:
          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
+import mongoose from "mongoose";
+
+/*
  * =====================================================
- * TODO-1 Estbalish Connection with MongoDB via Mongoose
+ * TODO-1 Establish Connection with MongoDB via Mongoose
  * =====================================================
- *  - import mongoose
- *    - import mongoose from "mongoose";
- *  - Go to cluster click on connect and select MongoDB for VS code
- *  - Copy the connection string.
- *       Example connection string:
- *       -  Correct Format: mongodb+srv://HasanDB:<db_password>@cluster0.rygtjue.mongodb.net/TestDB
- *       -  Incorrect Format: mongodb+srv://HasanDB:<db_password>@cluster0.rygtjue.mongodb.net
- *  - write your database username in place of HasanDB in the connection string.
- *  - write your database password in place of <db_password> in the connection string.
- *  - Run server: node server.js to test connection.
- * 
+ */
+mongoose
+  .connect(
+    "mongodb+srv://YOUR_USERNAME:YOUR_PASSWORD@cluster0.onuziwb.mongodb.net/TestDB"
+  )
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
+
+/*
  * =====================================================
  * TODO-2 Define the schema of the DB
- * ===================================================== 
- *    const studentSchema = new mongoose.Schema({
-         name: String,
-         age: Number,
-         major: String
-      });
-      const Student = mongoose.model("Student", studentSchema);
-      - Run server: node server.js and go to mongo cloud to see DB schema in test->students.
- * 
+ * =====================================================
+ */
+const studentSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  major: String,
+});
+
+const Student = mongoose.model("Student", studentSchema);
+
+/*
  * =====================================================
  * TODO-3 Create Document
- * ===================================================== 
- *  - This code will create document in database.
- * async function createStudents() {
-      await Student.insertMany([
-         { name: "Ali", age: 21, major: "CS" },
-         { name: "Sara", age: 23, major: "SE" }
-      ]);
-      console.log("✅ Inserted");
-      }
-      createStudents();
-   - Run server: node server.js and go to mongo cloud to see created document.
+ * =====================================================
+ */
+async function createStudents() {
+  await Student.insertMany([
+    { name: "Ali", age: 21, major: "CS" },
+    { name: "Sara", age: 23, major: "SE" },
+  ]);
+  console.log("Inserted");
+}
+createStudents();
+
+/*
  * =====================================================
  * TODO-4 Read Documents
- * ===================================================== 
- * - This code will read all the document in database.
- *  
- *    async function readStudents() {
-         const all = await Student.find();
-         console.log(all);
-      }
-      readStudents();
-    - Run server: node server.js.
+ * =====================================================
+ */
+async function readStudents() {
+  const all = await Student.find();
+  console.log(all);
+}
+readStudents();
+
+/*
  * =====================================================
  * TODO-5 Update Document
- * ===================================================== 
- * - This code will update a document in database.
- *  
- *    async function updateStudent() {
-         await Student.updateOne({ name: "Ali" }, { age: 22 });
-         console.log("✅ Updated Ali");
-      }
-      updateStudent();
- * - Run server: node server.js and got to mongo cloud to see the updated document.
+ * =====================================================
+ */
+async function updateStudent() {
+  await Student.updateOne({ name: "Ali" }, { age: 22 });
+  console.log("Updated Ali");
+}
+updateStudent();
+
+/*
  * =====================================================
  * TODO-6 Delete Document
- * ===================================================== 
- * - This code will delete a document in database.
- *  
- *    async function deleteStudent() {
-         await Student.deleteOne({ name: "Sara" });
-      console.log("✅ Deleted Sara");
-      }
-      deleteStudent();
- * - Run server: node server.js and got to mongo cloud to verify, document is deleted.
- * 
- * Note on Collection Naming in Node.js (Mongoose)
- * When a collection is created in Node.js using Mongoose, the name is automatically converted to lowercase and plural form.
- *  Examples:
- *    Student → students
- *    User → users
- *  This is the default behavior of Mongoose.
+ * =====================================================
  */
-
-// import mongoose
-
-// establish connection
-
-
-// define schema
-
-
-// create document
-
-
-// read document
-
-
-// update document
-
-
-// delete document
+async function deleteStudent() {
+  await Student.deleteOne({ name: "Sara" });
+  console.log("Deleted Sara");
+}
+deleteStudent();
